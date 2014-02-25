@@ -1,0 +1,96 @@
+<?php
+App::uses('AppModel', 'Model');
+/**
+ * User Model
+ *
+ * @property Attendance $Attendance
+ * @property CoursesTeacher $CoursesTeacher
+ * @property user_tags $user_tags
+ * @property user_courses $courses
+ */
+class User extends AppModel {
+
+/**
+ * Primary key field
+ *
+ * @var string
+ */
+	public $primaryKey = 'user_id';
+
+/**
+ * Display field
+ *
+ * @var string
+ */
+	public $displayField = 'first_name';
+
+/**
+ * Validation rules
+ *
+ * @var array
+ */
+	
+
+	//The Associations below have been created with all possible keys, those that are not needed can be removed
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Attendance' => array(
+			'className' => 'Attendance',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'CoursesTeacher' => array(
+			'className' => 'CoursesTeacher',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'UserTag' => array(
+			'className' => 'user_tags',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Course' => array(
+			'className' => 'user_courses',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+
+}
