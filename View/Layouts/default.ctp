@@ -40,7 +40,11 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+        	<div style="float:right"><?php echo $this->Html->link('logout', '/users/logout'); ?></div>
+			<h1><?php echo $this->Html->link('home', '/'); ?></h1>
+            
+            
+            
 		</div>
 		<div id="content">
 

@@ -36,6 +36,15 @@ class PagesController extends AppController {
  * @var array
  */
 	public $uses = array();
+	
+	
+		
+	public function beforeFilter(){
+
+		parent::beforeFilter();
+		
+	}
+	
 
 /**
  * Displays a view
@@ -74,4 +83,27 @@ class PagesController extends AppController {
 			throw new NotFoundException();
 		}
 	}
+	
+	
+	
+	function home(){
+	
+		switch($this->Session->read('Auth.User.user_type')){
+						case 'Admin': 	$this->redirect('/admin/pages/home'); break;
+						case 'Student': 	$this->redirect('/student/pages/home');
+						case 'Teacher': 	$this->redirect('/teacher/pages/home');
+		}
+						
+		
+	}
+	
+	function admin_home(){				
+	}
+	
+	function student_home(){				
+	}
+	
+	function teacher_home(){				
+	}
+	
 }

@@ -20,7 +20,7 @@ class CoursesController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->Course->recursive = 1;
 		$this->set('courses', $this->Paginator->paginate());
 	}

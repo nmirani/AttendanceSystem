@@ -12,7 +12,7 @@
 	</tr>
 	<?php foreach ($users as $user): ?>
 	<tr>
-		<td><?php echo h($user['User']['user_id']); ?>&nbsp;</td>
+		<td><?php echo h($user['User']['id']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['password']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['user_type']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['first_name']); ?>&nbsp;</td>

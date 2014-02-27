@@ -12,12 +12,11 @@ class UsersController extends AppController {
 	public $components = array('Paginator', 'RequestHandler');
     public $name = 'Users';
 
-public function beforeFilter()
-{
-    Security::setHash('md5');
-    parent::beforeFilter();
-    $this->Auth->allow('add');
-}
+	public function beforeFilter(){
+		Security::setHash('md5');
+		parent::beforeFilter();
+		$this->Auth->allow('add');
+	}
 
    /* public function isAuthorized($user) {
         if ($user['user_type'] == 'admin') {
@@ -32,35 +31,42 @@ public function beforeFilter()
     } */
 
 
+		
+		public function login() {
+			if ($this->request->is('post')) {
+				$username = $this->request->data['Users']['username'];
+				$password = Security::hash($this->data['Users']['password'], 'md5', false);
+				$user_type = $this->request->data['Users']['user_type'];
+				//debug($username);
+				//debug($password);
+				$user = $this->User->find('first', array('conditions' => array('username' => $username, 'password' => $password, 'user_type' => $user_type), 'contain' => false));
 
-public function login() {
-    if ($this->request->is('post')) {
-        $username = $this->request->data['Users']['username'];
-        $password = Security::hash($this->data['Users']['password'], 'md5', false);
-        debug($username);
-        debug($password);
-        $user = $this->User->find('first', array('conditions' => array('username' => $username, 'password' => $password)));
-        if($user !== false)
-        {
-            debug($user);
-            $this->Auth->login();
-        }
-        if ($this->Auth->login()) {
-            $this->Session->setFlash(__('Welcome, '. $this->Auth->user('first_name')));
-            $this->redirect($this->Auth->redirect());
-        }
-        else{
-        $this->Session->setFlash(__('Invalid username or password,please try again!'));
-    }
- }
-}
-
-public function logout() {
-    return $this->redirect($this->Auth->logout()); 
-}
+				if ($user && $this->Auth->login($user['User'])) {
+					$this->Session->setFlash(__('Welcome, '. $this->Auth->user('first_name')));
+					
+					switch($user['User']['user_type']){
+						case 'Admin': 	$this->redirect('/admin/pages/home'); break;
+						case 'Student': 	$this->redirect('/student/pages/home');
+						case 'Teacher': 	$this->redirect('/teacher/pages/home');
+					}
+					
+				}
+				else{
+					$this->Session->setFlash(__('Invalid username or password,please try again!'));
+			}
+		 }
+		}
+	
+	
+	
+	
+	
+	public function logout() {
+		return $this->redirect($this->Auth->logout()); 
+	}
 
 
-    public function index() {
+    public function admin_index() {
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
     }
