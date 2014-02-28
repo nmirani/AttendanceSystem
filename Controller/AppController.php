@@ -44,15 +44,37 @@ class AppController extends Controller {
     	'Auth' => array(
         'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
         'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
-        //'authorize' => array('Controller')
+        'authorize' => array('Controller')
         )
     );
 
     public function beforeFilter() {
-        $this->Auth->allow('index','view','find','login','display'); //previously allowed login and find
+		$this->Auth->allow('login', 'home'); 
+        //$this->Auth->allow('index','view','find','login','display'); //previously allowed login and find
         //$this->set('logged_in', $this->Auth->loggedIn());
         //$this->set('current_user', $this->Auth->user());
 
+    }
+	
+	
+	public function isAuthorized($user = null) {
+        //debug($this->request->params);
+		
+		// Any registered user can access public functions
+        if (!empty($this->request->params['admin']) && $user['user_type'] == 'Admin') {
+            return true;
+        }
+
+        if (!empty($this->request->params['student']) && $user['user_type'] == 'Student') {
+            return true;
+        }
+		
+		if (!empty($this->request->params['teacher']) && $user['user_type'] == 'Teacher') {
+            return true;
+        }
+
+        // Default deny
+        return false;
     }
 
  

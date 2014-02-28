@@ -5,7 +5,8 @@
 	<?php
 		echo $this->Form->input('user_id');
 		echo $this->Form->input('password');
-		echo $this->Form->input('user_type');
+		echo $this->Form->input('password_confirmation', array('type' => 'password') );
+		echo $this->Form->input('user_type', array('type' => 'select', 'options' => array('Admin' => 'Admin', 'Teacher' => 'Teacher', 'Student' => 'Student'), 'empty' => true ) );
 		echo $this->Form->input('first_name');
 		echo $this->Form->input('last_name');
 		echo $this->Form->input('email');

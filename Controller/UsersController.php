@@ -71,7 +71,7 @@ class UsersController extends AppController {
         $this->set('users', $this->paginate());
     }
 
-    public function view($id = null) {
+    public function admin_view($id = null) {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -79,7 +79,7 @@ class UsersController extends AppController {
         $this->set('user', $this->User->read(null, $id));
     }
 
-    public function add() {
+    public function admin_add() {
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
@@ -92,13 +92,23 @@ class UsersController extends AppController {
         }
     }
 
-    public function edit($id = null) {
+    public function admin_edit($id = null) {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->User->save($this->request->data)) {
+			$user = $this->User->read(null, $id);
+			$this->User->data = $this->request->data;
+			$this->User->data['User']['username'] = $user['User']['username'];
+			if($this->User->data['User']['password'] == ''){
+					 unset($this->User->data['User']['password']);
+					 unset($this->User->data['User']['password_confirmation']);
+			}else{
+				
+			}
+
+            if ($this->User->save($this->User->data)) {
                 $this->Session->setFlash(__('The user has been saved'));
                 return $this->redirect(array('action' => 'index'));
             }
@@ -111,7 +121,7 @@ class UsersController extends AppController {
         }
     }
 
-    public function delete($id = null) {
+    public function admin_delete($id = null) {
         $this->request->onlyAllow('post');
 
         $this->User->id = $id;
@@ -127,7 +137,7 @@ class UsersController extends AppController {
     }
 
     // The feed action is called from "webroot/js/ready.js" to get the list of events (JSON)
-    function find($id=null) {
+    function admin_find($id=null) {
         $this->layout = "ajax";
         $vars = $this->params['url'];
         

@@ -108,13 +108,16 @@ public $displayField = 'first_name';
                 'message'=>'Your passwords do not match'
             ),
 
-        'password_confirmation'=>array(
-            'Not empty'=>array(
-                'rule'=>'notEmpty',
-                'message'=>'Please confirm your password'
-            )
-          )
+        	
         ),
+		
+		'password_confirmation'=>array(
+				'notEmpty'=>array(
+					'rule'=>'notEmpty',
+					'message'=>'Please confirm your password'
+				)
+          	),
+			
     
         'email'=>array(
             'Valid email'=>array(
@@ -125,17 +128,20 @@ public $displayField = 'first_name';
                 'rule' => array('between', 6, 60), 
                 'message' => 'Usernames must be between 6 to 60 characters'
             )
-            ),
+        ),
 
         'user_type' => array(
                 'required' => array(
-                    'rule' => array('inList',array('admin','student','teacher')),
+                    'rule' => array('inList',array('Admin','Student','Teacher')),
                     'message' => 'Please enter which kind of user you are.')
-                )
+         )
     );
 
 
- public function matchPasswords($data) {
+ 	public function matchPasswords($data) {
+	 	if(!isset($data['password']) && !isset($this->data['User']['password_confirmation']))
+			return true;
+
         if ($data['password'] == $this->data['User']['password_confirmation']) {
             return true;
         }
@@ -143,12 +149,11 @@ public $displayField = 'first_name';
         return false;
     }
 
-       public function beforeSave($options = array()) {
-        if (!$this->id) {
-            $passwordHasher = new SimplePasswordHasher();
-            $this->data['User']['password'] = $passwordHasher->hash(
-                $this->data['User']['password']
-            );
+     public function beforeSave($options = array()) {
+        if (isset($this->data['User']['password'] )) {
+            
+            $this->data['User']['password'] = Security::hash($this->data['User']['password'], 'md5', false);
+			
         }
         return true;
     }
