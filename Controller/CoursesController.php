@@ -32,7 +32,7 @@ class CoursesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	public function admin_view($id = null) {
 		if (!$this->Course->exists($id)) {
 			throw new NotFoundException(__('Invalid course'));
 			$this->redirect(array('action' => 'index'));
@@ -46,17 +46,17 @@ class CoursesController extends AppController {
  *
  * @return void
  */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Course->create();
-			if ($this->Course->save($this->request->data)) {
-				return $this->flash(__('The course has been saved.'), array('action' => 'index'));
+	public function admin_add() {
+		if (!empty($this->request->data)) {
+			$this->Course->create($this->request->data);
+			if ($this->Course->save($this->request->data)) {return;
+				$this->Session->setFlash(__('The course has been saved.'), true);
 				$this->redirect(array('action' => 'index'));
-			}
-			else {
+			}else {
 				$this->Session->setFlash(__('The Course could not be saved. Please, try again.', true));
 			}
 		}
+		
 	}
 
 /**
@@ -66,18 +66,25 @@ class CoursesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->Course->exists($id)) {
 			throw new NotFoundException(__('Invalid course'));
 		}
-		if ($this->request->is(array('post', 'put'))) {
+		if (!empty($this->request->data)) {
+			$this->Course->id = $id;
 			if ($this->Course->save($this->request->data)) {
-				return $this->flash(__('The course has been saved.'), array('action' => 'index'));
+				$this->flash(__('The course has been saved.'), array('action' => 'index'));
+				$this->redirect(array('action' => 'index'));
+			}else {
+				$this->Session->setFlash(__('The Course could not be saved. Please, try again.', true));
 			}
+			
+			
 		} else {
 			$options = array('conditions' => array('Course.' . $this->Course->primaryKey => $id));
 			$this->request->data = $this->Course->find('first', $options);
 		}
+		
 	}
         // The feed action is called from "webroot/js/ready.js" to get the list of events (JSON)
 	//{"Course":{"course_id":"COMP33812","course_name":"Software Evolution","created":"0000-00-00 00:00:00","modified":"0000-00-00 00:00:00"},
@@ -126,7 +133,7 @@ class CoursesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->Course->id = $id;
 		if (!$this->Course->exists()) {
 			throw new NotFoundException(__('Invalid course'));

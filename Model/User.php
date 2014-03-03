@@ -79,6 +79,10 @@ public $displayField = 'first_name';
                 'rule' => array('notEmpty'),
                 'message' => 'A username is required',
             ),
+			'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Invalid username',
+            ),
 
             'between' => array( 
                 'rule' => array('between', 5, 15), 

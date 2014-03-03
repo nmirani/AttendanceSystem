@@ -15,6 +15,23 @@ class UserCoursesController extends AppController {
  */
 	public $components = array('Paginator');
 
+
+
+	public function admin_user_enrolled($user_id) {
+		
+		$this->set('user_id', $user_id);
+		$this->Paginator->paginate = array('conditions' => array('user_id' => $user_id),
+											'contain' => array('Course') );
+		
+		$this->UserCourse->recursive = 0;
+		$this->set('userCourses', $this->Paginator->paginate(array('user_id' => $user_id)));
+	}
+
+
+
+
+
+
 /**
  * index method
  *
@@ -45,18 +62,22 @@ class UserCoursesController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->UserCourse->create();
 			if ($this->UserCourse->save($this->request->data)) {
 				$this->Session->setFlash(__('The user course has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'user_enrolled', $this->request->data['UserCourse']['user_id']));
 			} else {
 				$this->Session->setFlash(__('The user course could not be saved. Please, try again.'));
 			}
 		}
-		$users = $this->UserCourse->User->find('list');
+		
+		$user = $this->UserCourse->User->find('first', array('conditions' => array('id' =>  $this->params['named']['user_id']) , 'contain' => false) );
+		
+		$users = $this->UserCourse->User->find('list', array('conditions' => array('user_type' => $user['User']['user_type']) ) );
 		$courses = $this->UserCourse->Course->find('list');
+		$this->set('user_id', $this->params['named']['user_id']);
 		$this->set(compact('users', 'courses'));
 	}
 
@@ -67,14 +88,14 @@ class UserCoursesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->UserCourse->exists($id)) {
 			throw new NotFoundException(__('Invalid user course'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->UserCourse->save($this->request->data)) {
 				$this->Session->setFlash(__('The user course has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'user_enrolled', $this->request->data['UserCourse']['user_id']));
 			} else {
 				$this->Session->setFlash(__('The user course could not be saved. Please, try again.'));
 			}
@@ -94,16 +115,20 @@ class UserCoursesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->UserCourse->id = $id;
 		if (!$this->UserCourse->exists()) {
 			throw new NotFoundException(__('Invalid user course'));
 		}
+		
+		 $this->UserCourse->id = $id;
+		 $UserCourse = $this->UserCourse->read(null, $id);
+		
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->UserCourse->delete()) {
 			$this->Session->setFlash(__('The user course has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The user course could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(array('action' => 'user_enrolled', $UserCourse['UserCourse']['user_id']));
 	}}

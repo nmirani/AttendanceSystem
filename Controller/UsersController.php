@@ -18,19 +18,17 @@ class UsersController extends AppController {
 		$this->Auth->allow('add');
 	}
 
-   /* public function isAuthorized($user) {
-        if ($user['user_type'] == 'admin') {
-            return true;
-        }
-        if (in_array($this->action, array('edit', 'delete'))) {
-            if ($user['id'] != $this->request->params['pass'][0]) {
-                return false;
-            }
-        }
-        return true;
-    } */
 
 
+		public function admin_login() {
+			$this->redirect('/users/login');
+		}
+		public function teacher_login() {
+			$this->redirect('/users/login');
+		}
+		public function student_login() {
+			$this->redirect('/users/login');
+		}
 		
 		public function login() {
 			if ($this->request->is('post')) {
@@ -70,6 +68,31 @@ class UsersController extends AppController {
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
     }
+	
+	
+	 public function admin_student() {
+		$this->set('title_for_layout', 'Student');
+        $this->User->recursive = 0;
+        $this->set('users', $this->paginate(array('user_type' => 'Student')) );
+		$this->render('admin_index');
+    }
+	
+	 public function admin_teacher() {
+		$this->set('title_for_layout', 'Teacher');
+        $this->User->recursive = 0;
+        $this->set('users', $this->paginate(array('user_type' => 'Teacher')) );
+		$this->render('admin_index');
+    }
+	
+	 public function admin_admin() {
+		$this->set('title_for_layout', 'Admin');
+        $this->User->recursive = 0;
+        $this->set('users', $this->paginate(array('user_type' => 'Admin')) );
+		$this->render('admin_index');
+    }
+	
+	
+	
 
     public function admin_view($id = null) {
         $this->User->id = $id;
@@ -80,16 +103,23 @@ class UsersController extends AppController {
     }
 
     public function admin_add() {
+		
+		$user_type = isset($this->params['named']['user_type']) ? 	$this->params['named']['user_type'] :  false;
+		$this->set('user_type', $user_type);
+		$this->set('user_type_with_colon', ($user_type) ? ' : ' . $user_type : '');
+		
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been saved'));
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('action' => ($user_type) ? $user_type : 'index'));
             }
             $this->Session->setFlash(
                 __('The user could not be saved. Please, try again.')
             );
-        }
+        }else{
+			if($user_type) $this->request->data['User']['user_type'] = 	$user_type;
+		}
     }
 
     public function admin_edit($id = null) {
@@ -110,7 +140,7 @@ class UsersController extends AppController {
 
             if ($this->User->save($this->User->data)) {
                 $this->Session->setFlash(__('The user has been saved'));
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('action' => ($user_type) ? $user_type : 'index'));
             }
             $this->Session->setFlash(
                 __('The user could not be saved. Please, try again.')
@@ -128,9 +158,14 @@ class UsersController extends AppController {
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
+		
+		 $this->User->id = $id;
+		 $user = $this->User->read(null, $id);
+		
         if ($this->User->delete()) {
+			$user_type = $user['User']['user_type'];			
             $this->Session->setFlash(__('User deleted'));
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirect(array('action' => ($user_type) ? $user_type : 'index'));
         }
         $this->Session->setFlash(__('User was not deleted'));
         return $this->redirect(array('action' => 'index'));

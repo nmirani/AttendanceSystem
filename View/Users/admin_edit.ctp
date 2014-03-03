@@ -1,9 +1,13 @@
+
+<?php $user_type = $this->request->data['User']['user_type']; ?>
+
 <div class="users form">
 <?php echo $this->Form->create('User'); ?>
 	<fieldset>
 		<legend><?php echo __('Admin Edit User'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
+		echo $this->Form->input('username', array('readonly' => 'readonly') );
 		echo $this->Form->input('password');
 		echo $this->Form->input('password_confirmation', array('type' => 'password') );
 		echo $this->Form->input('user_type', array('type' => 'select', 'options' => array('Admin' => 'Admin', 'Teacher' => 'Teacher', 'Student' => 'Student'), 'empty' => true ) );
@@ -19,6 +23,6 @@
 	<ul>
 
 		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('User.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('User.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?></li>
+		<li><?php echo $this->Html->link(__('List Users') . ': ' . $user_type, array('action' => ($user_type) ? $user_type : 'index')); ?></li>
 	</ul>
 </div>

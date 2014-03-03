@@ -80,4 +80,21 @@ class Course extends AppModel {
 		)
 	);
 
+
+ public $validate = array(
+        'course_id' => array(
+            'nonEmpty' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'A Course ID is required',
+            )
+        ),
+		'course_name' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				'message' => 'A Course Name is required',
+			)
+		)
+    );
+
+
 }
