@@ -20,10 +20,23 @@ class StudentClassesController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->StudentClass->recursive = 0;
 		$this->set('studentClasses', $this->Paginator->paginate());
 	}
+
+
+	public function admin_for_course($course_id) {
+		
+		$this->set('course_id', $course_id);
+		
+		$this->paginate = array('conditions' => array('StudentClass.course_id' => $course_id), 'contain' => 'Course' );
+		
+		$this->StudentClass->recursive = 0;
+		$this->set('studentClasses', $this->Paginator->paginate());
+	}
+
+
 
 /**
  * view method
@@ -32,7 +45,7 @@ class StudentClassesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	public function admin_view($id = null) {
 		if (!$this->StudentClass->exists($id)) {
 			throw new NotFoundException(__('Invalid student class'));
 		}
@@ -45,16 +58,19 @@ class StudentClassesController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->StudentClass->create();
 			if ($this->StudentClass->save($this->request->data)) {
 				$this->Session->setFlash(__('The student class has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'for_course', $this->request->data['StudentClass']['course_id']));
 			} else {
 				$this->Session->setFlash(__('The student class could not be saved. Please, try again.'));
 			}
+		}else{
+			if(isset($this->params['named']['course_id'])) $this->request->data['StudentClass']['course_id'] = $this->params['named']['course_id'];
 		}
+		
 		$courses = $this->StudentClass->Course->find('list');
 		$this->set(compact('courses'));
 	}
@@ -66,14 +82,14 @@ class StudentClassesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->StudentClass->exists($id)) {
 			throw new NotFoundException(__('Invalid student class'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->StudentClass->save($this->request->data)) {
 				$this->Session->setFlash(__('The student class has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'for_course', $this->request->data['StudentClass']['course_id']));
 			} else {
 				$this->Session->setFlash(__('The student class could not be saved. Please, try again.'));
 			}

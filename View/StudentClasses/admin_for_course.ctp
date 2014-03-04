@@ -5,12 +5,13 @@
 			<th><?php echo $this->Paginator->sort('class_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('course_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('room'); ?></th>
+            <th><?php echo $this->Paginator->sort('day_of_week'); ?></th>
+			<th><?php echo $this->Paginator->sort('frequency'); ?></th>
 			<th><?php echo $this->Paginator->sort('start_date_time'); ?></th>
 			<th><?php echo $this->Paginator->sort('end_time'); ?></th>
 			<th><?php echo $this->Paginator->sort('repeat'); ?></th>
 			<th><?php echo $this->Paginator->sort('group'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
+			
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($studentClasses as $studentClass): ?>
@@ -20,12 +21,13 @@
 			<?php echo $this->Html->link($studentClass['Course']['course_id'], array('controller' => 'courses', 'action' => 'view', $studentClass['Course']['course_id'])); ?>
 		</td>
 		<td><?php echo h($studentClass['StudentClass']['room']); ?>&nbsp;</td>
-		<td><?php echo h($studentClass['StudentClass']['start_date_time']); ?>&nbsp;</td>
+        <td><?php echo h($studentClass['StudentClass']['day_of_week']); ?>&nbsp;</td>
+		<td><?php echo h($studentClass['StudentClass']['frequency']); ?>&nbsp;</td>
+		<td><?php echo h($studentClass['StudentClass']['start_time']); ?>&nbsp;</td>
 		<td><?php echo h($studentClass['StudentClass']['end_time']); ?>&nbsp;</td>
 		<td><?php echo h($studentClass['StudentClass']['repeat']); ?>&nbsp;</td>
 		<td><?php echo h($studentClass['StudentClass']['group']); ?>&nbsp;</td>
-		<td><?php echo h($studentClass['StudentClass']['created']); ?>&nbsp;</td>
-		<td><?php echo h($studentClass['StudentClass']['modified']); ?>&nbsp;</td>
+		
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $studentClass['StudentClass']['class_id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $studentClass['StudentClass']['class_id'])); ?>
@@ -51,8 +53,9 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Student Class'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Courses'), array('controller' => 'courses', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Course'), array('controller' => 'courses', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Timetable'), array('action' => 'add', 'course_id' => $course_id)); ?></li>
+		<li><?php echo $this->Html->link(__('Course Detail'), array('controller' => 'courses', 'action' => 'view', $course_id)); ?> </li>
+        <li>&nbsp;</li>
+		<li><?php echo $this->Html->link(__('List all timetable'), array('controller' => 'student_classes', 'action' => 'index')); ?> </li>
 	</ul>
 </div>

@@ -64,11 +64,11 @@ class DATABASE_CONFIG {
 	public $default = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
-		'host' => 'dbhost.cs.man.ac.uk',
-		'login' => 'mbax9nm4',
-		'password' => '1q2w3e4r',
-		'database' => 'mbax9nm4',
-		'prefix' => '',
+		'host' => 'localhost',
+		'login' => 'root',
+		'password' => '',
+		'database' => 'nastasia_AttendanceSystem',
+		'prefix' => 'nastasia_',
 		//'encoding' => 'utf8',
 	);
 

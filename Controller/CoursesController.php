@@ -140,8 +140,11 @@ class CoursesController extends AppController {
 		}
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->Course->delete()) {
-			return $this->flash(__('The course has been deleted.'), array('action' => 'index'));
+			$this->flash(__('The course has been deleted.'), array('action' => 'index'));
 		} else {
-			return $this->flash(__('The course could not be deleted. Please, try again.'), array('action' => 'index'));
+			$this->flash(__('The course could not be deleted. Please, try again.'), array('action' => 'index'));
 		}
+		
+		$this->redirect(array('action' => 'index'));
+		
 	}}

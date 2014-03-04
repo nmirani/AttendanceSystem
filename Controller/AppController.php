@@ -49,7 +49,7 @@ class AppController extends Controller {
     );
 
     public function beforeFilter() {
-		$this->Auth->allow('login', 'home'); 
+		$this->Auth->allow('login', 'home', 'logout'); 
         //$this->Auth->allow('index','view','find','login','display'); //previously allowed login and find
         //$this->set('logged_in', $this->Auth->loggedIn());
         //$this->set('current_user', $this->Auth->user());

@@ -40,7 +40,12 @@ $cakeDescription = __d('cake_dev', 'Attendance System');
 <body>
 	<div id="container">
 		<div id="header">
-        	<div style="float:right"><?php echo $this->Html->link('logout', '/users/logout'); ?></div>
+        	<div style="float:right">
+				<?php if($this->Session->read('Auth.User.user_type')){ ?>
+					<?php echo $this->Html->link('logout', '/users/logout'); ?>
+                <?php } ?>
+            
+            </div>
 			<h1><?php echo $this->Html->link('home', '/'); ?></h1>
             
             

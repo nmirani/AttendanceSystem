@@ -16,9 +16,20 @@
 			<?php echo h($studentClass['StudentClass']['room']); ?>
 			&nbsp;
 		</dd>
+        <dt><?php echo __('Day of week'); ?></dt>
+		<dd>
+			<?php echo h($studentClass['StudentClass']['day_of_week']); ?>
+			&nbsp;
+		</dd>
+        <dt><?php echo __('Frequency'); ?></dt>
+		<dd>
+			<?php echo h($studentClass['StudentClass']['frequency']); ?>
+			&nbsp;
+		</dd>
+        
 		<dt><?php echo __('Start Date Time'); ?></dt>
 		<dd>
-			<?php echo h($studentClass['StudentClass']['start_date_time']); ?>
+			<?php echo h($studentClass['StudentClass']['start_time']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('End Time'); ?></dt>
@@ -53,9 +64,6 @@
 	<ul>
 		<li><?php echo $this->Html->link(__('Edit Student Class'), array('action' => 'edit', $studentClass['StudentClass']['class_id'])); ?> </li>
 		<li><?php echo $this->Form->postLink(__('Delete Student Class'), array('action' => 'delete', $studentClass['StudentClass']['class_id']), null, __('Are you sure you want to delete # %s?', $studentClass['StudentClass']['class_id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Student Classes'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Student Class'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Courses'), array('controller' => 'courses', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Course'), array('controller' => 'courses', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Classes for this Course'), array('action' => 'for_course', $studentClass['StudentClass']['course_id'])); ?> </li>
 	</ul>
 </div>

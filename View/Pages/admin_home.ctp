@@ -20,7 +20,6 @@
         
         </li>
         <li><?php echo $this->Html->link('Courses', '/admin/courses'); ?></li>
-        <li><?php echo $this->Html->link('Events', '#'); ?></li>
 	</ul>
 </div>
 

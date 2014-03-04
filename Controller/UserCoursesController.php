@@ -29,6 +29,33 @@ class UserCoursesController extends AppController {
 
 
 
+	public function admin_students($course_id) {
+		
+		$this->set('course_id', $course_id);
+		
+		$this->paginate = array('conditions' => array('course_id' => $course_id, 'User.user_type' => 'Student'),
+											'contain' => array('User') );
+		
+		$this->UserCourse->recursive = 0;
+		$this->set('userCourses', $this->Paginator->paginate());
+		$this->set('user_type', 'Student');
+	}
+
+
+	public function admin_teachers($course_id) {
+		
+		$this->set('course_id', $course_id);
+		
+		$this->paginate = array('conditions' => array('course_id' => $course_id, 'User.user_type' => 'Teacher'),
+											'contain' => array('User') );
+		
+		$this->UserCourse->recursive = 0;
+		$this->set('userCourses', $this->Paginator->paginate());
+		
+		$this->set('user_type', 'Teacher');
+		$this->render('admin_students');
+	}
+
 
 
 
@@ -80,6 +107,32 @@ class UserCoursesController extends AppController {
 		$this->set('user_id', $this->params['named']['user_id']);
 		$this->set(compact('users', 'courses'));
 	}
+	
+	
+	
+	public function admin_add_user() {
+		
+		$user_type = $this->params['named']['user_type'];
+		$this->set('user_type', $this->params['named']['user_type']);
+		
+		if ($this->request->is('post')) {
+			$this->UserCourse->create();
+			if ($this->UserCourse->save($this->request->data)) {
+				$this->Session->setFlash(__('The user course has been saved.'));
+				return $this->redirect(array('action' => 'user_enrolled', $this->request->data['UserCourse']['user_id']));
+			} else {
+				$this->Session->setFlash(__('The user course could not be saved. Please, try again.'));
+			}
+		}else{
+			$this->request->data['UserCourse']['course_id'] = 	$this->params['named']['course_id'];
+		}
+		
+		$users = $this->UserCourse->User->find('list', array('conditions' => array('user_type' => $user_type) ) );
+		$courses = $this->UserCourse->Course->find('list');
+		$this->set('course_id', $this->params['named']['course_id']);
+		$this->set(compact('users', 'courses'));
+	}
+	
 
 /**
  * edit method

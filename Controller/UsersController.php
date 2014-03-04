@@ -60,7 +60,13 @@ class UsersController extends AppController {
 	
 	
 	public function logout() {
-		return $this->redirect($this->Auth->logout()); 
+		
+		if($this->Auth->user()){
+			$this->redirect($this->Auth->logout());
+		}else{
+			$this->redirect(array('controller'=>'pages','action' => 'display','home'));
+			$this->Session->setFlash(__('Not logged in'), 'default', array(), 'auth');
+		}
 	}
 
 
