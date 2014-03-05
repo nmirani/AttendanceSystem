@@ -29,7 +29,33 @@ class UserCoursesController extends AppController {
 
 
 
+	public function teacher_user_enrolled($user_id) {
+		
+		$this->set('user_id', $user_id);
+		$this->Paginator->paginate = array('conditions' => array('user_id' => $user_id),
+											'contain' => array('Course') );
+		
+		$this->UserCourse->recursive = 0;
+		$this->set('userCourses', $this->Paginator->paginate(array('user_id' => $user_id)));
+	}
+
+
+
 	public function admin_students($course_id) {
+		
+		$this->set('course_id', $course_id);
+		
+		$this->paginate = array('conditions' => array('course_id' => $course_id, 'User.user_type' => 'Student'),
+											'contain' => array('User') );
+		
+		$this->UserCourse->recursive = 0;
+		$this->set('userCourses', $this->Paginator->paginate());
+		$this->set('user_type', 'Student');
+	}
+	
+	
+	
+	public function teacher_students($course_id) {
 		
 		$this->set('course_id', $course_id);
 		
@@ -68,6 +94,16 @@ class UserCoursesController extends AppController {
 		$this->UserCourse->recursive = 0;
 		$this->set('userCourses', $this->Paginator->paginate());
 	}
+	
+	public function teacher_index() {
+		
+		$teacher_id = $this->Session->read('Auth.User.id');
+		$this->paginate = array('conditions' => array('user_id' => $teacher_id) );
+		
+		$this->UserCourse->recursive = 0;
+		$this->set('userCourses', $this->Paginator->paginate());
+	}
+
 
 /**
  * view method
@@ -103,7 +139,10 @@ class UserCoursesController extends AppController {
 		$user = $this->UserCourse->User->find('first', array('conditions' => array('id' =>  $this->params['named']['user_id']) , 'contain' => false) );
 		
 		$users = $this->UserCourse->User->find('list', array('conditions' => array('user_type' => $user['User']['user_type']) ) );
-		$courses = $this->UserCourse->Course->find('list');
+		$courses = $this->UserCourse->Course->find('all', array('contain' => false) );
+		$courses = Set::combine($courses, '{n}.Course.id', array('%1$s - %2$s (ID: %3$s)', '{n}.Course.course_id', '{n}.Course.course_name', '{n}.Course.id'));
+		
+		
 		$this->set('user_id', $this->params['named']['user_id']);
 		$this->set(compact('users', 'courses'));
 	}
@@ -128,7 +167,10 @@ class UserCoursesController extends AppController {
 		}
 		
 		$users = $this->UserCourse->User->find('list', array('conditions' => array('user_type' => $user_type) ) );
-		$courses = $this->UserCourse->Course->find('list');
+		
+		$courses = $this->UserCourse->Course->find('all', array('contain' => false) );
+		$courses = Set::combine($courses, '{n}.Course.id', array('%1$s - %2$s (ID: %3$s)', '{n}.Course.course_id', '{n}.Course.course_name', '{n}.Course.id'));
+		
 		$this->set('course_id', $this->params['named']['course_id']);
 		$this->set(compact('users', 'courses'));
 	}

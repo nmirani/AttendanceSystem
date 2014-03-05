@@ -107,6 +107,25 @@ class UsersController extends AppController {
         }
         $this->set('user', $this->User->read(null, $id));
     }
+	
+	
+	 public function teacher_view($id = null) {
+        $this->User->id = $id;
+        if (!$this->User->exists()) {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        $this->set('user', $this->User->read(null, $id));
+    }
+	
+	public function student_profile() {
+		$id = $this->Session->read('Auth.User.id');
+        $this->User->id = $id;
+        if (!$this->User->exists()) {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        $this->set('user', $this->User->read(null, $id));
+    }
+	
 
     public function admin_add() {
 		
@@ -143,10 +162,44 @@ class UsersController extends AppController {
 			}else{
 				
 			}
+			
 
             if ($this->User->save($this->User->data)) {
                 $this->Session->setFlash(__('The user has been saved'));
-                return $this->redirect(array('action' => ($user_type) ? $user_type : 'index'));
+                return $this->redirect(array('action' => isset($user_type) ? $user_type : 'index'));
+            }
+            $this->Session->setFlash(
+                __('The user could not be saved. Please, try again.')
+            );
+        } else {
+            $this->request->data = $this->User->read(null, $id);
+            unset($this->request->data['User']['password']);
+        }
+    }
+	
+	
+	public function student_edit() {
+		$id = $this->Session->read('Auth.User.id');
+        $this->User->id = $id;
+        if (!$this->User->exists()) {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        if ($this->request->is('post') || $this->request->is('put')) {
+			$user = $this->User->read(null, $id);
+			$this->User->data = $this->request->data;
+			$this->User->data['User']['username'] = $user['User']['username'];
+			$this->User->data['User']['user_type'] = $user['User']['user_type'];
+			if($this->User->data['User']['password'] == ''){
+					 unset($this->User->data['User']['password']);
+					 unset($this->User->data['User']['password_confirmation']);
+			}else{
+				
+			}
+			
+
+            if ($this->User->save($this->User->data)) {
+                $this->Session->setFlash(__('The user has been saved'));
+                return $this->redirect('/');
             }
             $this->Session->setFlash(
                 __('The user could not be saved. Please, try again.')

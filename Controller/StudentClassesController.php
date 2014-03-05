@@ -35,6 +35,19 @@ class StudentClassesController extends AppController {
 		$this->StudentClass->recursive = 0;
 		$this->set('studentClasses', $this->Paginator->paginate());
 	}
+	
+	
+	
+	
+	public function teacher_for_course($course_id) {
+		
+		$this->set('course_id', $course_id);
+		
+		$this->paginate = array('conditions' => array('StudentClass.course_id' => $course_id), 'contain' => 'Course' );
+		
+		$this->StudentClass->recursive = 0;
+		$this->set('studentClasses', $this->Paginator->paginate());
+	}
 
 
 
@@ -71,7 +84,10 @@ class StudentClassesController extends AppController {
 			if(isset($this->params['named']['course_id'])) $this->request->data['StudentClass']['course_id'] = $this->params['named']['course_id'];
 		}
 		
-		$courses = $this->StudentClass->Course->find('list');
+
+		$courses = $this->StudentClass->Course->find('all', array('contain' => false) );
+		$courses = Set::combine($courses, '{n}.Course.id', array('%1$s - %2$s (ID: %3$s)', '{n}.Course.course_id', '{n}.Course.course_name', '{n}.Course.id'));
+		
 		$this->set(compact('courses'));
 	}
 

@@ -21,7 +21,7 @@ class Course extends AppModel {
  *
  * @var string
  */
-	public $primaryKey = 'course_id';
+	public $primaryKey = 'id';
 
 /**
  * Display field

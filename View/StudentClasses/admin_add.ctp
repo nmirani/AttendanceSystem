@@ -20,6 +20,8 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Student Classes'), array('action' => 'index')); ?></li>
-        <li><?php echo $this->Html->link(__('List Classes for this Course'), array('controller' => 'student_classes', 'action' => 'for_course', $this->request->data['StudentClass']['course_id'])); ?> </li>
+        <?php if(isset($this->request->data['StudentClass']['course_id'])){ ?>
+	        <li><?php echo $this->Html->link(__('List Classes for this Course'), array('controller' => 'student_classes', 'action' => 'for_course', $this->request->data['StudentClass']['course_id'])); ?> </li>
+        <?php } ?>
 	</ul>
 </div>

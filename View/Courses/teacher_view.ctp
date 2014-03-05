@@ -26,13 +26,8 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit Course'), array('action' => 'edit', $course['Course']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Course'), array('action' => 'delete', $course['Course']['id']), null, __('Are you sure you want to delete # %s?', $course['Course']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Courses'), array('action' => 'index')); ?> </li>
-        <li>&nbsp;</li>
 		<li><?php echo $this->Html->link(__('List Enrolled Students'), array('controller' => 'user_courses', 'action' => 'students',  $course['Course']['id'])); ?> </li>
-        <li><?php echo $this->Html->link(__('List Enrolled Teachers'), array('controller' => 'user_courses', 'action' => 'teachers', $course['Course']['id'])); ?> </li>
-        <li>&nbsp;</li>
+        
         <li><?php echo $this->Html->link(__('List Classes for this Course'), array('controller' => 'student_classes', 'action' => 'for_course', $course['Course']['id'])); ?> </li>
 	</ul>
 </div>

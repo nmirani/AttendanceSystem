@@ -31,4 +31,24 @@ class StudentClass extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	
+	public $hasMany = array(
+		'TeacherClass' => array(
+			'className' => 'TeacherClass',
+			'foreignKey' => 'class_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+
+	
+	
 }

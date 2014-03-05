@@ -11,7 +11,7 @@
 		<td><?php echo h($course['Course']['course_id']); ?>&nbsp;</td>
 		<td><?php echo h($course['Course']['course_name']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('controller' => 'courses', 'action' => 'view', $course['UserCourse']['course_id'])); ?>
+			<?php echo $this->Html->link(__('View Course Detail'), array('controller' => 'courses', 'action' => 'view', $course['UserCourse']['course_id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $course['UserCourse']['user_courses_id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $course['UserCourse']['user_courses_id']), null, __('Are you sure you want to delete # %s?', $course['UserCourse']['user_courses_id'])); ?>
 		</td>
