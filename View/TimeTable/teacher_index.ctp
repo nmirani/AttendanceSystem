@@ -1,6 +1,7 @@
 
 
 	<link rel='stylesheet' type='text/css' href='<?php echo $this->base; ?>/js/fullcalendar-1.6.4/fullcalendar/fullcalendar.css' />
+    <script type='text/javascript' src='<?php echo $this->base; ?>/js/date.js'></script>
 	<script type='text/javascript' src='<?php echo $this->base; ?>/js/jquery.min.js'></script>
     <script type='text/javascript' src='<?php echo $this->base; ?>/js/fullcalendar-1.6.4/fullcalendar/fullcalendar.js'></script>
     
@@ -47,6 +48,10 @@ $('#calendar').fullCalendar( 'addEventSource',
 			<?php foreach($time_tables as $timetable): ?>
 			
             	var n = weekday[column_date.getDay()];
+				<?php if($timetable['StudentClass']['frequency'] == 'Every alternate week'){?> 
+					var w_n = column_date.getWeek();
+					if(w_n%2)
+				<?php } ?>
 				if (n == '<?php echo $timetable['StudentClass']['day_of_week']; ?>') {
 					// we're in Moday, create the event
 					events.push({
