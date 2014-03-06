@@ -14,9 +14,6 @@
 		<td><?php echo h($course['Course']['course_name']); ?>&nbsp;</td>
 		<td class="actions">
         	<?php echo $this->Html->link(__('List Classes'), array('controller' => 'student_classes', 'action' => 'for_course', $course['Course']['id'])); ?>
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $course['Course']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $course['Course']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $course['Course']['id']), null, __('Are you sure you want to delete # %s?', $course['Course']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -38,6 +35,6 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Course'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('Home'), array('controller' => 'pages', 'action' => 'home')); ?></li>
 	</ul>
 </div>

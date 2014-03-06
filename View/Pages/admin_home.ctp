@@ -1,26 +1,14 @@
 
-
-<h1>Welcome Home</h1>
-
-
-
-
-
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 
-		<li>
-			<?php echo $this->Html->link('Users', '/admin/users'); ?>
-            <ul>
-            	<li><?php echo $this->Html->link('Students', '/admin/users/student/'); ?></li>
-                <li><?php echo $this->Html->link('Teachers', '/admin/users/teacher/'); ?></li>
-                <li><?php echo $this->Html->link('Admins', '/admin/users/admin/'); ?></li>
-            </ul>
-        
-        </li>
-        <li><?php echo $this->Html->link('Courses', '/admin/courses'); ?></li>
-        <li><?php echo $this->Html->link('Timetable', '/admin/timetable'); ?></li>
+		
+            	<li><?php echo $this->Html->link('View Student List', '/admin/users/student/'); ?></li>
+                <li><?php echo $this->Html->link('View Teacher List', '/admin/users/teacher/'); ?></li>
+                <li><?php echo $this->Html->link('View Admin List', '/admin/users/admin/'); ?></li>
+        <li><?php echo $this->Html->link('View Courses', '/admin/courses'); ?></li>
+        <li><?php echo $this->Html->link('View Timetable', '/admin/time_table'); ?></li>
 	</ul>
 </div>
 

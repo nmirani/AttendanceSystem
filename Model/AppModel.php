@@ -33,4 +33,21 @@ class AppModel extends Model {
 	
 	
 		var $actsAs = array('Containable');
+		
+		function uniqueness($data, $name, $conditions = array()){
+			$this->recursive = -1;
+	
+			$conditionOption = array("{$this->name}.$name" => $data);
+			
+			if(!empty($conditions)){
+				foreach($conditions as $condition){
+					if(isset($this->data[$this->name][$condition]))
+						$conditionOption = Set::merge($conditionOption, array("{$this->name}.$condition" => $this->data[$this->name][$condition]));
+				}
+			}
+			
+		  $found = $this->find('first',array('conditions' => $conditionOption) );
+		  $same = isset($this->id) && isset($found[$this->name][$this->primaryKey]) && $found[$this->name][$this->primaryKey] == $this->id;
+		  return !$found || $found && $same;
+	 }
 }

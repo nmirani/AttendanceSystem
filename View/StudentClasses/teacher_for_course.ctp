@@ -7,7 +7,8 @@
 			<th><?php echo $this->Paginator->sort('room'); ?></th>
             <th><?php echo $this->Paginator->sort('day_of_week'); ?></th>
 			<th><?php echo $this->Paginator->sort('frequency'); ?></th>
-			<th><?php echo $this->Paginator->sort('start_date_time'); ?></th>
+			<th><?php echo $this->Paginator->sort('start_date'); ?></th>
+            <th><?php echo $this->Paginator->sort('start_time'); ?></th>
 			<th><?php echo $this->Paginator->sort('end_time'); ?></th>
 			<th><?php echo $this->Paginator->sort('repeat'); ?></th>
 			<th><?php echo $this->Paginator->sort('group'); ?></th>
@@ -23,6 +24,7 @@
 		<td><?php echo h($studentClass['StudentClass']['room']); ?>&nbsp;</td>
         <td><?php echo h($studentClass['StudentClass']['day_of_week']); ?>&nbsp;</td>
 		<td><?php echo h($studentClass['StudentClass']['frequency']); ?>&nbsp;</td>
+		<td><?php echo h($studentClass['StudentClass']['start_date']); ?>&nbsp;</td>
 		<td><?php echo h($studentClass['StudentClass']['start_time']); ?>&nbsp;</td>
 		<td><?php echo h($studentClass['StudentClass']['end_time']); ?>&nbsp;</td>
 		<td><?php echo h($studentClass['StudentClass']['repeat']); ?>&nbsp;</td>

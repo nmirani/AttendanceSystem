@@ -38,6 +38,17 @@ class UserCoursesController extends AppController {
 		$this->UserCourse->recursive = 0;
 		$this->set('userCourses', $this->Paginator->paginate(array('user_id' => $user_id)));
 	}
+	
+	
+	public function student_index() {
+		$user_id = $this->Session->read('Auth.User.id');
+		$this->set('user_id', $user_id);
+		$this->Paginator->paginate = array('conditions' => array('user_id' => $user_id),
+											'contain' => array('Course') );
+		
+		$this->UserCourse->recursive = 0;
+		$this->set('userCourses', $this->Paginator->paginate(array('user_id' => $user_id)));
+	}
 
 
 

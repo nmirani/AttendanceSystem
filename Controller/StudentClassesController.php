@@ -51,6 +51,19 @@ class StudentClassesController extends AppController {
 
 
 
+	
+	public function student_for_course($course_id) {
+		
+		$this->set('course_id', $course_id);
+		
+		$this->paginate = array('conditions' => array('StudentClass.course_id' => $course_id), 'contain' => 'Course' );
+		
+		$this->StudentClass->recursive = 0;
+		$this->set('studentClasses', $this->Paginator->paginate());
+	}
+
+
+
 /**
  * view method
  *

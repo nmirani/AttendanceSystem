@@ -42,10 +42,18 @@
 	<ul>
 		<li><?php echo $this->Html->link(__('Edit User'), array('action' => 'edit', $user['User']['id'])); ?> </li>
 		<li><?php echo $this->Form->postLink(__('Delete User'), array('action' => 'delete', $user['User']['id']), null, __('Are you sure you want to delete # %s?', $user['User']['id'])); ?> </li>
+        
+        <?php if($user['User']['user_type'] == 'Student'){ ?>
+	        <li><?php echo $this->Html->link(__('Manage User Tags'), array('controller' => 'user_tags', 'action' => 'index', $user['User']['id'])); ?> </li>
+        <?php } ?>
+        
+        
 		<li><?php echo $this->Html->link(__('List Users'). ': ' . $user_type, array('action' => ($user_type) ? $user_type : 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New User'). ': ' . $user_type, array('action' => 'add', 'user_type' => $user_type)); ?> </li>
         <li>&nbsp;</li>
 
+			
+		
         <?php if($user['User']['user_type'] != 'Admin'){ ?>
 	        <li><?php echo $this->Html->link(__('List Enrolled Courses'), array('controller' => 'user_courses', 'action' => 'user_enrolled', $user['User']['id'])); ?> </li>
         <?php } ?>

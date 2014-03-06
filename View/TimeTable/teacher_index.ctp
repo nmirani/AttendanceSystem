@@ -28,6 +28,7 @@ $('#calendar').fullCalendar({
 				right: 'month,agendaWeek,agendaDay'
 			},
 			timeFormat: '',//h:mm{ - h:mm}' ,
+			defaultView: 'agendaWeek'
 	});
 
 $('#calendar').fullCalendar( 'addEventSource',        
@@ -79,7 +80,24 @@ $('#calendar').fullCalendar( 'addEventSource',
 
 
 
+
+<div class="time_table view">
+
 	<div id='calendar'></div>
+</div>
+
+<div class="actions">
+	<h3><?php echo __('Actions'); ?></h3>
+	<ul>
+		<li><?php echo $this->Html->link('View Courses Taught', '/teacher/user_courses'); ?></li>
+        <li><?php echo $this->Html->link('#View Student Attendance', '#'); ?></li>
+        <li><?php echo $this->Html->link('View List of Students', '/teacher/users/student'); ?></li>
+        <li><?php echo $this->Html->link('#Add/Edit Attendance', '#'); ?></li>
+        <li><?php echo $this->Html->link('View All Courses', '/teacher/courses/'); ?></li>
+
+	</ul>
+</div>
+
 
 
 <?php //debug($time_tables); ?>

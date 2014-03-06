@@ -96,7 +96,19 @@ $('#calendar').fullCalendar( 'addEventSource',
 
 
 
+
+<div class="time_table view">
+
 	<div id='calendar'></div>
+</div>
+
+<div class="actions">
+	<h3><?php echo __('Actions'); ?></h3>
+	<ul>
+		<li><?php echo $this->Html->link('Home', '/'); ?></li>
+	</ul>
+</div>
+
 
 
 <?php //debug($time_tables); ?>

@@ -40,6 +40,9 @@ class Attendance extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+		),
+		'date' => array(			
+			'uniqueness' => array('rule' => array('uniqueness', 'date', array('date', 'user_id', 'course_id') ),'message'=>'Attendance has already been taken.')
 		)
 	);
 

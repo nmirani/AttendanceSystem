@@ -12,6 +12,7 @@
 		<td><?php echo h($course['Course']['course_name']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View Course Detail'), array('controller' => 'courses', 'action' => 'view', $course['UserCourse']['course_id'])); ?>
+            <?php echo $this->Html->link(__('View Enrolled Students'), array('controller' => 'user_courses', 'action' => 'students', $course['UserCourse']['course_id'])); ?> 
 		</td>
 	</tr>
 <?php endforeach; ?>

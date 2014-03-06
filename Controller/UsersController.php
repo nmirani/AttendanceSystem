@@ -15,7 +15,7 @@ class UsersController extends AppController {
 	public function beforeFilter(){
 		Security::setHash('md5');
 		parent::beforeFilter();
-		$this->Auth->allow('add');
+		//$this->Auth->allow('add');
 	}
 
 
@@ -81,6 +81,13 @@ class UsersController extends AppController {
         $this->User->recursive = 0;
         $this->set('users', $this->paginate(array('user_type' => 'Student')) );
 		$this->render('admin_index');
+    }
+	
+	
+	 public function teacher_student() {
+		$this->set('title_for_layout', 'Student');
+        $this->User->recursive = 0;
+        $this->set('users', $this->paginate(array('user_type' => 'Student')) );
     }
 	
 	 public function admin_teacher() {

@@ -1,19 +1,25 @@
+
 DROP TABLE IF EXISTS `attendances`;
 
 CREATE TABLE `attendances` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
+  `class_id` int(11) DEFAULT NULL,
   `course_id` varchar(20) NOT NULL,
   `status` varchar(5) NOT NULL,
-  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `hardware_used` enum('nfc','barcode','','') NOT NULL,
-  `number_registered` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `time` time DEFAULT NULL,
+  `hardware_used` enum('nfc','barcode','wifi') DEFAULT NULL,
+  `number_registered` int(11) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 /*Data for the table `attendances` */
+
+insert  into `attendances`(`id`,`user_id`,`class_id`,`course_id`,`status`,`date`,`time`,`hardware_used`,`number_registered`,`created`,`modified`) values (15,2,2,'2','1','2014-02-20','11:12:00','barcode',NULL,'2014-03-06 12:42:17','2014-03-06 12:42:17');
+insert  into `attendances`(`id`,`user_id`,`class_id`,`course_id`,`status`,`date`,`time`,`hardware_used`,`number_registered`,`created`,`modified`) values (16,2,2,'2','1','2014-02-27','12:44:00','wifi',NULL,'2014-03-06 12:44:26','2014-03-06 12:45:01');
 
 /*Table structure for table `course` */
 
@@ -81,6 +87,7 @@ CREATE TABLE `student_classes` (
   `room` varchar(10) NOT NULL,
   `day_of_week` varchar(20) NOT NULL,
   `frequency` varchar(50) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
   `repeat` int(2) DEFAULT '7',
@@ -92,9 +99,9 @@ CREATE TABLE `student_classes` (
 
 /*Data for the table `student_classes` */
 
-insert  into `student_classes`(`class_id`,`course_id`,`room`,`day_of_week`,`frequency`,`start_time`,`end_time`,`repeat`,`group`,`created`,`modified`) values (1,'1','IT 407','Wednesday','Every week','10:00:00','12:00:00',NULL,'','2014-03-04 18:40:59','2014-03-04 18:40:59');
-insert  into `student_classes`(`class_id`,`course_id`,`room`,`day_of_week`,`frequency`,`start_time`,`end_time`,`repeat`,`group`,`created`,`modified`) values (2,'2','','Monday','Every week','12:00:00','01:00:00',NULL,'','2014-03-04 18:41:58','2014-03-04 18:41:58');
-insert  into `student_classes`(`class_id`,`course_id`,`room`,`day_of_week`,`frequency`,`start_time`,`end_time`,`repeat`,`group`,`created`,`modified`) values (3,'3','test','Monday','Every week','14:00:00','15:00:00',NULL,'','2014-03-05 11:45:16','2014-03-05 11:46:12');
+insert  into `student_classes`(`class_id`,`course_id`,`room`,`day_of_week`,`frequency`,`start_date`,`start_time`,`end_time`,`repeat`,`group`,`created`,`modified`) values (1,'1','IT 407','Thursday','Every week','2014-02-10','08:00:00','11:00:00',NULL,'','2014-03-04 18:40:59','2014-03-06 09:19:50');
+insert  into `student_classes`(`class_id`,`course_id`,`room`,`day_of_week`,`frequency`,`start_date`,`start_time`,`end_time`,`repeat`,`group`,`created`,`modified`) values (2,'2','','Thursday','Every week','2014-02-05','12:00:00','01:00:00',NULL,'','2014-03-04 18:41:58','2014-03-04 18:41:58');
+insert  into `student_classes`(`class_id`,`course_id`,`room`,`day_of_week`,`frequency`,`start_date`,`start_time`,`end_time`,`repeat`,`group`,`created`,`modified`) values (3,'3','test','Monday','Every alternate week','2014-03-03','14:00:00','15:00:00',NULL,'','2014-03-05 11:45:16','2014-03-05 12:08:38');
 
 /*Table structure for table `teacher_classes` */
 
@@ -196,9 +203,14 @@ CREATE TABLE `user_tags` (
   `modified` datetime NOT NULL,
   PRIMARY KEY (`tag_id`),
   UNIQUE KEY `tag` (`tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `user_tags` */
+
+insert  into `user_tags`(`tag_id`,`user_id`,`tag`,`tag_type`,`in_use`,`created`,`modified`) values (7,2,'test123','nfc',1,'2014-03-05 19:49:06','2014-03-05 19:49:06');
+insert  into `user_tags`(`tag_id`,`user_id`,`tag`,`tag_type`,`in_use`,`created`,`modified`) values (8,2,'nepal','barcode',1,'2014-03-05 19:49:57','2014-03-05 19:52:04');
+insert  into `user_tags`(`tag_id`,`user_id`,`tag`,`tag_type`,`in_use`,`created`,`modified`) values (10,2,'100010010','nfc',1,'2014-03-06 08:42:19','2014-03-06 08:42:19');
+insert  into `user_tags`(`tag_id`,`user_id`,`tag`,`tag_type`,`in_use`,`created`,`modified`) values (11,3,'200010010','nfc',1,'2014-03-06 08:42:54','2014-03-06 08:42:54');
 
 /*Table structure for table `users` */
 
@@ -242,3 +254,4 @@ insert  into `users`(`id`,`username`,`password`,`user_type`,`first_name`,`last_n
 insert  into `users`(`id`,`username`,`password`,`user_type`,`first_name`,`last_name`,`email`,`created`,`modified`) values (21,8949313,'dd00101a6962b75767b23429f64fa765','Teacher','Milan','Mihajlovic','milanm@cs.man.ac.uk','2014-03-04 18:00:06','2014-03-04 18:00:06');
 insert  into `users`(`id`,`username`,`password`,`user_type`,`first_name`,`last_name`,`email`,`created`,`modified`) values (22,8949314,'dd00101a6962b75767b23429f64fa765','Teacher','Eva','Lopez','evalopez@cs.man.ac.uk','2014-03-04 18:00:06','2014-03-04 18:00:06');
 insert  into `users`(`id`,`username`,`password`,`user_type`,`first_name`,`last_name`,`email`,`created`,`modified`) values (23,8949315,'dd00101a6962b75767b23429f64fa765','Teacher','Jock','McNaught','jockmcn@cs.man.ac.uk','2014-03-04 18:00:06','2014-03-04 18:00:06');
+

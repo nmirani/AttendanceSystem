@@ -27,10 +27,7 @@
 		<td><?php echo h($user['User']['last_name']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
 		<td class="actions">
-        	<?php echo $this->Html->link(__('Manage User Tags'), array('controller' => 'user_tags', 'action' => 'index', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['id']), null, __('Are you sure you want to delete # %s?', $user['User']['id'])); ?>
+        	<?php echo $this->Html->link(__('List User Tags'), array('controller' => 'user_tags', 'action' => 'index', $user['User']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -52,6 +49,6 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(sprintf(__('Add New %s'), $user_type), array('action' => 'add', 'user_type' => $user_type)); ?></li>
+		<li><?php echo $this->Html->link(__('Home'), array('controller' => 'pages', 'action' => 'home')); ?></li>
 	</ul>
 </div>

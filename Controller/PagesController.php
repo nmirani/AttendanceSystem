@@ -90,8 +90,8 @@ class PagesController extends AppController {
 	
 		switch($this->Session->read('Auth.User.user_type')){
 						case 'Admin': 	$this->redirect('/admin/pages/home'); break;
-						case 'Student': 	$this->redirect('/student/pages/home'); break;
-						case 'Teacher': 	$this->redirect('/teacher/pages/home'); break;
+						case 'Student': 	$this->redirect('/student/time_table'); break;
+						case 'Teacher': 	$this->redirect('/teacher/time_table'); break;
 						default:
 							$this->redirect('/users/login');
 		}
@@ -104,10 +104,12 @@ class PagesController extends AppController {
 	function admin_home(){				
 	}
 	
-	function student_home(){				
+	function student_home(){	
+		$this->redirect('/student/time_table'); 
 	}
 	
-	function teacher_home(){				
+	function teacher_home(){
+		$this->redirect('/teacher/time_table'); 					
 	}
 	
 }

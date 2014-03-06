@@ -56,6 +56,10 @@ class UserTag extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+			'isUnique'=>array(
+                'rule'=>'isUnique',
+                'message'=>'That Tag has already been taken.'
+            )  
 		),
 		'in_use' => array(
 			'boolean' => array(

@@ -24,6 +24,12 @@ class CoursesController extends AppController {
 		$this->Course->recursive = 1;
 		$this->set('courses', $this->Paginator->paginate());
 	}
+	
+	
+	public function teacher_index() {
+		$this->Course->recursive = 1;
+		$this->set('courses', $this->Paginator->paginate());
+	}
 
 
 	
@@ -47,6 +53,16 @@ class CoursesController extends AppController {
 
 
 	public function teacher_view($id = null) {
+		if (!$this->Course->exists($id)) {
+			throw new NotFoundException(__('Invalid course'));
+			$this->redirect(array('action' => 'index'));
+		}
+		$options = array('conditions' => array('Course.' . $this->Course->primaryKey => $id));
+		$this->set('course', $this->Course->find('first', $options));
+	}
+
+
+	public function student_view($id = null) {
 		if (!$this->Course->exists($id)) {
 			throw new NotFoundException(__('Invalid course'));
 			$this->redirect(array('action' => 'index'));

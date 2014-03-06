@@ -7,6 +7,7 @@
 		echo $this->Form->input('room');
 		echo $this->Form->input('day_of_week', array('empty' => true, 'type' => 'select', 'options' => array('Sunday' => 'Sunday', 'Monday' => 'Monday', 'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday') ) );
 		echo $this->Form->input('frequency', array('empty' => true, 'type' => 'select', 'options' => array('Every week' => 'Every week', 'Every alternate week' => 'Every alternate week') ) );
+		echo $this->Form->input('start_date', array('type' => 'date', 'empty' => true, 'maxYear' => date('Y')) );
 		echo $this->Form->input('start_time', array('empty' => true) );
 		echo $this->Form->input('end_time', array('empty' => true) );
 		echo $this->Form->input('repeat');

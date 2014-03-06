@@ -18,6 +18,7 @@
         <td><?php echo h($student['User']['email']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('controller' => 'users', 'action' => 'view', $student['User']['id'])); ?>
+            <?php echo $this->Html->link(__('View Attendance'), array('controller' => 'attendances', 'action' => 'for_course', $course_id, 'student_id' => $student['User']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
