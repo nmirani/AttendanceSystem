@@ -90,6 +90,10 @@ class AttendancesController extends AppController {
 			$attendance_data['Attendance']['time'] = date('H:i');
 			
 			if($this->Attendance->save($attendance_data)){
+				
+				$users = $this->Attendance->User->find('first', array('User.id' => $user_id) );
+				$data['user_id'] = $users['User']['id'];
+				$data['username'] = $users['User']['username'];
 				$data['status'] = true;
 				$data['message'] = 'Attendance saved successfully';
 			}else{
