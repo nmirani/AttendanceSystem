@@ -187,10 +187,10 @@ class AttendancesController extends AppController {
 			
 			$this->Attendance->id = $id;
 			if ($this->Attendance->save($this->request->data)) {
-				$this->flash(__('The course has been saved.'), array('action' => 'index'));
+				$this->flash(__('The attendance has been saved.'), array('action' => 'index'));
 				$this->redirect(array('action' => 'for_course', $Attendance['Attendance']['course_id'], 'student_id' => $Attendance['Attendance']['user_id']));
 			}else {
-				$this->Session->setFlash(__('The Course could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The attendance could not be saved. Please, try again.', true));
 			}
 			
 			
@@ -214,10 +214,10 @@ class AttendancesController extends AppController {
 				
 				$this->Attendance->create();
 				if ($this->Attendance->save($this->request->data)) {
-					$this->flash(__('The course has been saved.'), array('action' => 'index'));
+					$this->flash(__('The attendance has been saved.'), array('action' => 'index'));
 					$this->redirect(array('action' => 'for_course', $Attendance['Attendance']['course_id'], 'student_id' => $Attendance['Attendance']['user_id']));
 				}else {
-					$this->Session->setFlash(__('The Course could not be saved. Please, try again.', true));
+					$this->Session->setFlash(__('The attendance could not be saved. Please, try again.', true));
 				}
 				
 			
@@ -226,6 +226,64 @@ class AttendancesController extends AppController {
 			$this->request->data = $Attendance;
 		}
 
+	}
+	
+	
+	
+	
+	public function teacher_addEdit() {
+		
+		
+		
+		if (!empty($this->request->data)) {
+
+			$date = $this->request->data['Attendance']['date']['year'] . '-' . $this->request->data['Attendance']['date']['month'] . '-' . $this->request->data['Attendance']['date']['day'];
+			$attendance = $this->Attendance->find('first', array('conditions' => array('user_id' => $this->request->data['Attendance']['user_id'],
+																						'course_id' => $this->request->data['Attendance']['course_id'],
+																						'class_id' => $this->request->data['Attendance']['class_id'],
+																						'date' => $date,
+																						),
+																'contain' => false )
+														);
+
+			if($attendance){
+					$this->Attendance->id = $attendance['Attendance']['id'];
+			}
+			
+			if($this->request->data['Attendance']['status'] == 0){
+				if($attendance){
+					$this->Attendance->delete();
+				}
+				$this->Session->setFlash(__('The attendance has been saved.'));
+				return $this->redirect('/');
+			}
+			
+
+			if ($this->Attendance->save($this->request->data)) {
+				$this->Session->setFlash(__('The attendance has been saved.'));
+				$this->redirect('/');
+			}else {
+				$this->Session->setFlash(__('The attendance could not be saved. Please, try again.'));
+			}
+			
+		} 
+		
+		$this->set('users', $this->Attendance->User->find('list', array('conditions' => array('User.user_type' => 'Student')) ) );
+		
+		$teacher_id = $this->Session->read('Auth.User.id');
+		$courses = $this->User->UserCourse->find('all', array('conditions' => array('user_id' => $teacher_id), 'contain' => false ));
+		$courses_ids = Set::extract('/UserCourse/course_id', $courses);
+		$this->set('courses', $this->StudentClass->Course->find('list', array('conditions' => array('Course.id' => $courses_ids)) ) );
+		
+		
+		$classes = $this->TeacherClass->find('all', array('conditions' => array('TeacherClass.user_id' => $teacher_id), 'contain' => false) );
+		$class_ids = Set::extract('/TeacherClass/class_id', $classes);
+		$StudentClasses = $this->StudentClass->find('all', array('conditions' => array('StudentClass.class_id' => $class_ids)) );
+		
+		$StudentClasses = Set::combine($StudentClasses, '{n}.StudentClass.class_id', array('%1$s - %2$s | %3$s | (%4$s %5$s - %6$s)', 
+																							'{n}.Course.course_id', '{n}.Course.course_name', '{n}.StudentClass.room', '{n}.StudentClass.day_of_week', '{n}.StudentClass.start_time', '{n}.StudentClass.end_time'));
+		
+		$this->set('classes', $StudentClasses );
 	}
 	
 

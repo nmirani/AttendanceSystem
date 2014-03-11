@@ -55,7 +55,7 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Timetable'), array('action' => 'add', 'course_id' => $course_id)); ?></li>
+		<li><?php echo $this->Html->link(__('Add New Class'), array('action' => 'add', 'course_id' => $course_id)); ?></li>
 		<li><?php echo $this->Html->link(__('Course Detail'), array('controller' => 'courses', 'action' => 'view', $course_id)); ?> </li>
         <li>&nbsp;</li>
 		<li><?php echo $this->Html->link(__('List all timetable'), array('controller' => 'student_classes', 'action' => 'index')); ?> </li>

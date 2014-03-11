@@ -137,16 +137,20 @@ class StudentClassesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->StudentClass->id = $id;
 		if (!$this->StudentClass->exists()) {
 			throw new NotFoundException(__('Invalid student class'));
 		}
 		$this->request->onlyAllow('post', 'delete');
+		
+		$this->StudentClass->recursive = 0;
+		$student_class = $this->StudentClass->read(null, $id);
+		
 		if ($this->StudentClass->delete()) {
 			$this->Session->setFlash(__('The student class has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The student class could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(array('action' => 'for_course', $student_class['StudentClass']['course_id']));
 	}}

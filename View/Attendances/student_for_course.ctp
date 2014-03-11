@@ -86,7 +86,7 @@
 			}
 	
 	?>
-	    <tr class="<?php echo ($status) ? 'green' : 'red' ; ?>">
+	    <tr class="<?php //echo ($status) ? 'green' : 'red' ; ?>">
         
         
 		<?php if(!$status){ ?>
@@ -94,7 +94,7 @@
             <td><?php echo date('Y-m-d', strtotime($running_date)); ?></td>
             <td>-</td>
             <td>-</td>
-            <td>Absence</td>
+            <td>Absent</td>
         
         <?php } ?>
         

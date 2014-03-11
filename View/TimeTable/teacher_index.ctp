@@ -89,10 +89,11 @@ $('#calendar').fullCalendar( 'addEventSource',
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
+    	<li><?php echo $this->Html->link('View Profile', '/teacher/users/profile'); ?></li>
 		<li><?php echo $this->Html->link('View Courses Taught', '/teacher/user_courses'); ?></li>
-        <li><?php echo $this->Html->link('#View Student Attendance', '#'); ?></li>
+        <li><?php echo $this->Html->link('View Student Attendance', '/teacher/user_courses'); ?></li>
         <li><?php echo $this->Html->link('View List of Students', '/teacher/users/student'); ?></li>
-        <li><?php echo $this->Html->link('#Add/Edit Attendance', '#'); ?></li>
+        <li><?php echo $this->Html->link('Add/Edit Attendance', '/teacher/attendances/addEdit'); ?></li>
         <li><?php echo $this->Html->link('View All Courses', '/teacher/courses/'); ?></li>
 
 	</ul>

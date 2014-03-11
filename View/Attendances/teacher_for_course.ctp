@@ -89,7 +89,7 @@
 			}
 	
 	?>
-	    <tr class="<?php echo ($status) ? 'green' : 'red' ; ?>">
+	    <tr class="<?php //echo ($status) ? 'green' : 'red' ; ?>">
         
         	<td><?php echo $Student['User']['username']; ?></td>
 		<?php if(!$status){ ?>
@@ -97,7 +97,7 @@
             <td><?php echo date('Y-m-d', strtotime($running_date)); ?></td>
             <td>-</td>
             <td>-</td>
-            <td>Absence</td>
+            <td>Absent</td>
             <td class="actions"><?php echo $this->Html->link(__('Edit'), array('action' => 'add',  
 																								'date' => date('Y-m-d', strtotime($running_date)),
 																								'user_id' =>  $Student['User']['id'],

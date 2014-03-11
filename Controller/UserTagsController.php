@@ -176,16 +176,20 @@ class UserTagsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->UserTag->id = $id;
 		if (!$this->UserTag->exists()) {
 			throw new NotFoundException(__('Invalid user tag'));
 		}
 		$this->request->onlyAllow('post', 'delete');
+		
+		$this->UserTag->recursive = 0;
+		$user_tag = $this->UserTag->read(null, $id);
+		
 		if ($this->UserTag->delete()) {
 			$this->Session->setFlash(__('The user tag has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The user tag could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(array('action' => 'index', $user_tag['UserTag']['user_id']));
 	}}
