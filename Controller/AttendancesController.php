@@ -24,12 +24,13 @@ class AttendancesController extends AppController {
 		$this->layout = null;
 		$data = array('timestamp' => date('d.M Y H:i l') );
 		
-		$tag_id = $this->params['url']['tag_id'];
+		//$tag_id = $this->params['url']['tag_id'];
+		$username = $this->params['url']['username'];
 		//$tag = $this->params['url']['tag'];
 		$tag_type = $this->params['url']['tag_type'];
 		$room = $this->params['url']['room'];
 		
-		$UserTag = $this->UserTag->find('first', array('conditions' => array('UserTag.tag_id' => $tag_id), 'contain' => array('User') ) );
+		/*$UserTag = $this->UserTag->find('first', array('conditions' => array('UserTag.tag_id' => $tag_id), 'contain' => array('User') ) );
 		if(!$UserTag){
 			$data['status'] = false;
 			$data['message'] = "student not found";
@@ -37,16 +38,17 @@ class AttendancesController extends AppController {
 			return;
 		}
 		$user_id = $UserTag['User']['id'];
-		
-		/*$user = $this->User->find('first', array('conditions' => array('User.username' => $username), 'contain' => false ) );
+		*/
+		$user = $this->User->find('first', array('conditions' => array('User.username' => $username), 'contain' => false ) );
 		if(!$user){
 			$data['status'] = false;
 			$data['message'] = 'student not found';
 			$this->set('data', $data);
 			return;
 		}
+		$user_id = $user['User']['id'];
 		
-		$user_tag = $this->UserTag->find('first', array('conditions' => array('UserTag.tag' => $tag), 'contain' => false ) );
+		/* $user_tag = $this->UserTag->find('first', array('conditions' => array('UserTag.tag' => $tag), 'contain' => false ) );
 		if(!$user_tag){
 			$data['status'] = false;
 			$data['message'] = "Tag not in use";
